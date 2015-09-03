@@ -1,7 +1,7 @@
 #!/bin/sh
-export Launcher="/usr/share/ALaunch/main.rb"
+export Launcher="/usr/bin/ALaunch.rb"
 
-/usr/share/APanel/main.rb &
+/usr/bin/APanel.rb &
 /usr/bin/plank &
 
 echo "Launched"
