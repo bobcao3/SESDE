@@ -1,0 +1,14 @@
+/*GtkWindow {
+  background-color: rgba(255,255,255,0.5);
+  transition: all 250ms;
+}*/
+
+GtkIconView {
+  background-color: rgba(255,255,255,0.3);
+  color: #233;
+}
+
+GtkScrollbar {
+  background-color: rgba(255,255,255,0.8);
+}
+
