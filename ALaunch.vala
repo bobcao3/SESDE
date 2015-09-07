@@ -61,7 +61,7 @@ public class MainWindow : Gtk.Window {
 		} catch (Error e) {
 			stderr.printf ("Could not load icon: %s\n", e.message);
 		}
-		Gtk.main_quit ();
+		this.vanish ();
 	}
 	
 	public void vanish () {
