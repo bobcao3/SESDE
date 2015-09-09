@@ -1,5 +1,9 @@
+CC = "clang"
+XCC = "-D WNCK_I_KNOW_THIS_IS_UNSTABLE"
+
+
 SESDE: ALaunch.vala APanel.vala SESDE.vala
-	valac ALaunch.vala APanel.vala SESDE.vala -o SESDE --pkg gtk+-3.0 --thread
+	valac --cc=${CC} --Xcc=${XCC} ALaunch.vala ATask.vala APanel.vala SESDE.vala -o SESDE --pkg libwnck-3.0
 
 all: clean SESDE
 
