@@ -11,18 +11,18 @@ class MainWindow : Gtk.Window {
 	
 	private void window_closed (Wnck.Window win) {
 		stdout.printf ("[WindowList] \"%s\" closed\n", win.get_name ());
-		winlist.append (win);
+		this.winlist.prepend (win);
 		prl ();
 	}
 	
 	private void window_opened (Wnck.Window win) {
 		stdout.printf ("[WindowList] \"%s\" opened\n", win.get_name ());
-		winlist.remove (win);
+		this.winlist.remove (win);
 		prl ();
 	}
 	
 	private void prl () {
-		winlist.foreach ((a) => {
+		this.winlist.foreach ((a) => {
 			stdout.puts(a.get_name ());
 		});
 	}
@@ -31,7 +31,6 @@ class MainWindow : Gtk.Window {
 		wrksp = scr.get_active_workspace ();
 		scr.window_closed.connect (this.window_closed);
 		scr.window_opened.connect (this.window_opened);
-		
 	}
 	
 }
