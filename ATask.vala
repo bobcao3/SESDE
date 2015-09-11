@@ -7,23 +7,21 @@ class MainWindow : Gtk.Window {
 	private Wnck.Screen scr = Wnck.Screen.get_default ();
 	private Wnck.Workspace wrksp;
 	
-	public List<Wnck.Window> winlist = new List<Wnck.Window> ();
+	public GLib.List<Wnck.Window> winlist = new GLib.List<Wnck.Window> ();
 	
 	private void window_closed (Wnck.Window win) {
 		stdout.printf ("[WindowList] \"%s\" closed\n", win.get_name ());
-		this.winlist.prepend (win);
-		prl ();
+		winlist.remove (win);
 	}
 	
 	private void window_opened (Wnck.Window win) {
 		stdout.printf ("[WindowList] \"%s\" opened\n", win.get_name ());
-		this.winlist.remove (win);
-		prl ();
+		winlist.prepend (win);
 	}
 	
 	private void prl () {
-		this.winlist.foreach ((a) => {
-			stdout.puts(a.get_name ());
+		winlist.foreach ( (win) => {
+			stdout.printf (" %s\n", win.get_name ());
 		});
 	}
 	
