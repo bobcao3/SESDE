@@ -21,21 +21,8 @@ class MainWindow : Gtk.Window {
 	private void application_opened (Wnck.Application app) {
 		stdout.printf ("[ApplicationList] \"%s\" opened\n", app.get_name ());
 		applist.prepend (app);
+	}
 
-		//add_btn (app);
-	}
-	/*
-	private void add_btn (Wnck.Application app) {
-		Gdk.Pixbuf icon_px = app.get_icon ();
-		icon_px.scale_simple (30, 30, Gdk.InterpType.BILINEAR);
-		
-		Gtk.Image img = new Gtk.Image.from_pixbuf (icon_px);
-		
-		Gtk.ToggleButton button = new Gtk.ToggleButton.with_label (app.get_name ());
-		
-		this.btnbox.pack_start (button, true, true, 0);
-	}
-	*/
 	private void prl () {
 		applist.foreach ( (win) => {
 			stdout.printf ("[WindowList] all: %s\n", win.get_name ());
