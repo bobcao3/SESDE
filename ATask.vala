@@ -2,53 +2,55 @@ using Wnck;
 
 namespace ATaskl {
 
-class AppIcon : Gtk.Box {
-
-	private AppIcon (Gdk.Pixbuf icon_px, string name) {
-		this.orientation = Gtk.Orientation.VERTICAL;
-		
-	}
-
-}
-
 class MainWindow : Gtk.Window {
 	
 	private Wnck.Screen scr = Wnck.Screen.get_default ();
 	private Wnck.Workspace wrksp;
-	private Gtk.FlowBox appflow = new Gtk.FlowBox();
-	private Gtk.ScrolledWindow srl = new Gtk.ScrolledWindow(null, null);
 	
-	public GLib.List<Wnck.Window> winlist = new GLib.List<Wnck.Window> ();
+	private Wnck.Tasklist tskl = new Wnck.Tasklist ();
 	
-	private void window_closed (Wnck.Window win) {
-		stdout.printf ("[WindowList] \"%s\" closed\n", win.get_name ());
-		winlist.remove (win);
+	private Gtk.ButtonBox btnbox = new Gtk.ButtonBox (Gtk.Orientation.HORIZONTAL);
+	
+	public GLib.List<Wnck.Application> applist = new GLib.List<Wnck.Application> ();
+	
+	private void application_closed (Wnck.Application app) {
+		stdout.printf ("[ApplicationList] \"%s\" closed\n", app.get_name ());
+		applist.remove (app);
 	}
 	
-	private void window_opened (Wnck.Window win) {
-		stdout.printf ("[WindowList] \"%s\" opened\n", win.get_name ());
-		winlist.prepend (win);
-		
-		AppIcon fooicon = new AppIcon (null, null);
-		
+	private void application_opened (Wnck.Application app) {
+		stdout.printf ("[ApplicationList] \"%s\" opened\n", app.get_name ());
+		applist.prepend (app);
+
+		//add_btn (app);
 	}
-	
+	/*
+	private void add_btn (Wnck.Application app) {
+		Gdk.Pixbuf icon_px = app.get_icon ();
+		icon_px.scale_simple (30, 30, Gdk.InterpType.BILINEAR);
+		
+		Gtk.Image img = new Gtk.Image.from_pixbuf (icon_px);
+		
+		Gtk.ToggleButton button = new Gtk.ToggleButton.with_label (app.get_name ());
+		
+		this.btnbox.pack_start (button, true, true, 0);
+	}
+	*/
 	private void prl () {
-		winlist.foreach ( (win) => {
+		applist.foreach ( (win) => {
 			stdout.printf ("[WindowList] all: %s\n", win.get_name ());
 		});
 	}
 	
 	public MainWindow () {
 		Gdk.Screen scrn = Gdk.Screen.get_default ();
-		this.set_default_size (scrn.width (), 48);
+		this.set_default_size (scrn.get_width (), 32);
 	
-		srl.add (appflow);
-		this.add (appflow);
-	
+		this.add (tskl);
+		
 		wrksp = scr.get_active_workspace ();
-		scr.window_closed.connect (this.window_closed);
-		scr.window_opened.connect (this.window_opened);
+		scr.application_closed.connect (this.application_closed);
+		scr.application_opened.connect (this.application_opened);
 	}
 	
 }
