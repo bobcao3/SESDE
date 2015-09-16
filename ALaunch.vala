@@ -16,6 +16,7 @@ public class MainWindow : Gtk.Window {
 
 	private Gdk.Pixbuf find_icon (string name, IconTheme theme) {
 		try {
+
 			Gdk.Pixbuf icon_px;
 			icon_px = theme.load_icon (name, 64, Gtk.IconLookupFlags.FORCE_SVG);
 			icon_px = icon_px.scale_simple (64, 64, Gdk.InterpType.BILINEAR);
@@ -90,6 +91,11 @@ public class MainWindow : Gtk.Window {
 		}
 		this.title = "ALaunch";
 		this.set_type_hint (Gdk.WindowTypeHint.DOCK);
+		
+		this.set_decorated (false);
+		this.set_skip_pager_hint (true);
+		this.set_skip_taskbar_hint (true);
+		this.stick ();
 		
 		Gdk.Screen screen = Gdk.Screen.get_default ();
 		this.set_default_size (screen.get_width (), screen.get_height ());

@@ -1,3 +1,4 @@
+using Wnck;
 using Gtk;
 
 namespace Panel {
@@ -55,14 +56,20 @@ public class ActionMenu : Gtk.Window {
 public class MainWindow : Gtk.Window {
 	
 	private Box box = new Box (Orientation.HORIZONTAL, 2);
-	private Button button_launcher = new Button ();
+	private ToggleButton button_launcher = new ToggleButton ();
 	private Button button_action = new Button ();
 	private Label time_dis = new Label ("0:0:0");
+	
+	private Wnck.Pager pgr = new Wnck.Pager ();
 	
 	public ALaunch.MainWindow l_win = new ALaunch.MainWindow ();
 
 	private void Launcher () {
-		l_win.appear ();
+		if (l_win.visible) {
+			l_win.vanish ();
+		} else {
+			l_win.appear ();
+		}
 	}
 	
 	private void Action () {
@@ -84,13 +91,20 @@ public class MainWindow : Gtk.Window {
 		this.set_default_size (screen.get_width (), 32);
 		
 		button_launcher.set_label ("Launch");
-		button_launcher.clicked.connect (Launcher);
+		button_launcher.toggled.connect (Launcher);
 		button_action.set_label ("Action");
 		button_action.clicked.connect (Action);
 		
+		pgr.set_display_mode (Wnck.PagerDisplayMode.CONTENT);
+		
 		box.pack_start (button_launcher, false, true, 0);
 		box.pack_start (button_action, false, true, 0);
+		box.pack_start (pgr, false, false, 0);
 		box.pack_end (time_dis, false, true, 0);
+		
+		this.set_decorated (false);
+		this.set_skip_pager_hint (true);
+		this.set_skip_taskbar_hint (true);
 		
 		GLib.Timeout.add (1000, (GLib.SourceFunc) timer);
 		timer ();

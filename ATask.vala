@@ -45,7 +45,13 @@ class MainWindow : Gtk.Window {
 	public MainWindow () {
 		Gdk.Screen scrn = Gdk.Screen.get_default ();
 		this.set_default_size (scrn.get_width (), 32);
-	
+		this.move (0, scrn.get_height ());
+		this.set_decorated (false);
+		this.set_skip_pager_hint (true);
+		this.set_skip_taskbar_hint (true);
+		this.set_keep_above (true);
+		this.stick ();
+		
 		this.add (tskl);
 		
 		wrksp = scr.get_active_workspace ();
