@@ -24,7 +24,12 @@ public void main (string[] args) {
 	int hx, hy;
 	taskl.get_size (out hx, out hy);
 	
-	Panel.MainWindow win = new Panel.MainWindow (hy, runmode, taskl);
+	Panel.MainWindow win;
+	if (runmode == 1) {
+		win = new Panel.MainWindow (0, runmode, taskl);
+	} else {
+		win = new Panel.MainWindow (hy, runmode, taskl);
+	}
 	win.show_all ();
 	
 	Gtk.main ();
