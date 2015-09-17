@@ -4,6 +4,14 @@ public static int runmode = 0; // 0 -> Desktop, 1 -> Tablet
 
 public void main (string[] args) {
 	Gtk.init (ref args);
+	
+	foreach(string arg in args) {
+		stdout.printf("Argument : %s\n",arg);
+		if(arg == "tablet") {
+			stdout.printf("Entering Tablet Mode.\n");
+			runmode = 1;
+		}
+	}
 
 	Gtk.Window taskl;
 	if (runmode == 1) {
