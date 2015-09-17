@@ -1,15 +1,16 @@
+using Gtk;
 using Wnck;
 
 namespace ATaskl {
 
-class MainWindow : Gtk.Window {
+class ATaskContext {
+
+	public Wnck.Screen scr = Wnck.Screen.get_default ();
+	public Wnck.Workspace wrksp;
 	
-	private Wnck.Screen scr = Wnck.Screen.get_default ();
-	private Wnck.Workspace wrksp;
+	public Wnck.Tasklist tskl = new Wnck.Tasklist ();
 	
-	private Wnck.Tasklist tskl = new Wnck.Tasklist ();
-	
-	private Gtk.ButtonBox btnbox = new Gtk.ButtonBox (Gtk.Orientation.HORIZONTAL);
+	public Gtk.ButtonBox btnbox = new Gtk.ButtonBox (Gtk.Orientation.HORIZONTAL);
 	
 	public GLib.List<Wnck.Application> applist = new GLib.List<Wnck.Application> ();
 	
@@ -23,11 +24,23 @@ class MainWindow : Gtk.Window {
 		applist.prepend (app);
 	}
 
-	private void prl () {
+	public void prl () {
 		applist.foreach ( (win) => {
 			stdout.printf ("[WindowList] all: %s\n", win.get_name ());
 		});
 	}
+	
+	public ATaskContext () {
+		this.wrksp = scr.get_active_workspace ();
+		this.scr.application_closed.connect (this.application_closed);
+		this.scr.application_opened.connect (this.application_opened);
+	}
+	
+}
+
+class MainWindow : Gtk.Window {
+	
+	private ATaskContext ctx = new ATaskContext ();
 	
 	public MainWindow () {
 		Gdk.Screen scrn = Gdk.Screen.get_default ();
@@ -39,11 +52,38 @@ class MainWindow : Gtk.Window {
 		this.set_keep_above (true);
 		this.stick ();
 		
-		this.add (tskl);
+		this.add (ctx.tskl);
+	}
+	
+}
+
+class TabletWindow : Gtk.Window {
+	
+	private ATaskContext ctx = new ATaskContext ();
+	
+	public void appear () {
+		this.show_all ();
+	}
+	
+	public void vanish () {
+		this.hide ();
+	}
+	
+	public TabletWindow () {
+		Gdk.Screen scrn = Gdk.Screen.get_default ();
+		this.set_default_size (300, 500);
+
+		this.window_position = Gtk.WindowPosition.CENTER;
+
+		this.set_decorated (false);
+		this.set_skip_pager_hint (true);
+		this.set_skip_taskbar_hint (true);
+		this.set_keep_above (true);
+		this.stick ();
 		
-		wrksp = scr.get_active_workspace ();
-		scr.application_closed.connect (this.application_closed);
-		scr.application_opened.connect (this.application_opened);
+		ctx.tskl.set_orientation (Gtk.Orientation.VERTICAL);
+		
+		this.add (ctx.tskl);
 	}
 	
 }

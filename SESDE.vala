@@ -1,12 +1,23 @@
 using Gtk;
 
+public static int runmode = 0; // 0 -> Desktop, 1 -> Tablet
+
 public void main (string[] args) {
 	Gtk.init (ref args);
-	Panel.MainWindow win = new Panel.MainWindow ();
-	win.show_all ();
+
+	Gtk.Window taskl;
+	if (runmode == 1) {
+		taskl = new ATaskl.TabletWindow  ();
+	} else {
+		taskl = new ATaskl.MainWindow  ();
+		taskl.show_all ();
+	}
 	
-	ATaskl.MainWindow taskl = new ATaskl.MainWindow  ();
-	taskl.show_all ();
+	int hx, hy;
+	taskl.get_size (out hx, out hy);
+	
+	Panel.MainWindow win = new Panel.MainWindow (hy, runmode, taskl);
+	win.show_all ();
 	
 	Gtk.main ();
 }

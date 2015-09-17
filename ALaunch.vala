@@ -80,7 +80,7 @@ public class MainWindow : Gtk.Window {
 		
 	}
 	
-	public MainWindow() {
+	public MainWindow(int uh, int dh) {
 		try {
 			file_pixbuf = new Gdk.Pixbuf.from_file ("/usr/share/ALaunch/gnome-fs-regular.png");
 			folder_pixbuf = new Gdk.Pixbuf.from_file ("/usr/share/ALaunch/gnome-fs-directory.png");
@@ -90,15 +90,16 @@ public class MainWindow : Gtk.Window {
 			stderr.printf ("Could not load: %s\n", e.message);
 		}
 		this.title = "ALaunch";
-		this.set_type_hint (Gdk.WindowTypeHint.DOCK);
 		
 		this.set_decorated (false);
 		this.set_skip_pager_hint (true);
 		this.set_skip_taskbar_hint (true);
+		this.set_keep_above (true);
 		this.stick ();
 		
 		Gdk.Screen screen = Gdk.Screen.get_default ();
-		this.set_default_size (screen.get_width (), screen.get_height ());
+		this.set_default_size (screen.get_width (), screen.get_height () - uh - dh);
+		this.move (0, uh);
 
 		store.set_sort_column_id (1, SortType.ASCENDING);
 		this.fill_store ();
@@ -117,15 +118,7 @@ public class MainWindow : Gtk.Window {
 		sw.set_policy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
 		sw.add (iconview);
 		
-		Button btn = new Button ();
-		btn.set_label ("Return");
-		btn.clicked.connect (this.vanish);
-		
-		Fixed fixed = new Fixed ();
-		fixed.add (btn);
-		
 		Box box = new Box (Orientation.VERTICAL, 5);
-		box.pack_start (fixed, false, false, 0);
 		box.pack_end (sw, true, true, 0);
 		this.add (box);
 	}
