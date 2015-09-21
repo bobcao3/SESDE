@@ -16,6 +16,14 @@ public class ActionMenu : Gtk.Window {
 		this.destroy ();
 	}
 	
+	public void appear () {
+		this.show_all ();
+	}
+
+	public void vanish () {
+		this.hide ();
+	}
+	
 	private void shutdown () {
 		try {
 			processL.spawnv ({"shutdown","-P","now",null});
@@ -49,6 +57,10 @@ public class ActionMenu : Gtk.Window {
 		this.window_position = Gtk.WindowPosition.CENTER_ALWAYS;
 		this.border_width = 3;
 		this.set_decorated (false);
+		this.set_skip_pager_hint (true);
+		this.set_skip_taskbar_hint (true);
+		this.set_keep_above (true);
+		this.stick ();
 	}
 
 }
@@ -57,14 +69,15 @@ public class MainWindow : Gtk.Window {
 	
 	private Box box = new Box (Orientation.HORIZONTAL, 2);
 	private ToggleButton button_launcher = new ToggleButton ();
-	private Button button_action = new Button ();
+	private ToggleButton button_action = new ToggleButton ();
 	private Label time_dis = new Label ("0:0:0");
 	
 	private Wnck.Pager pgr = new Wnck.Pager ();
 	
 	private Gtk.Window tablet_win;
+	private ActionMenu action = new ActionMenu ();
 	
-	public ALaunch.MainWindow l_win;
+	private ALaunch.MainWindow l_win;
 
 	private void Launcher () {
 		if (l_win.visible) {
@@ -75,8 +88,11 @@ public class MainWindow : Gtk.Window {
 	}
 	
 	private void Action () {
-		ActionMenu action = new ActionMenu ();
-		action.show_all ();
+		if (action.visible) {
+			action.vanish ();
+		} else {
+			action.appear ();
+		}
 	}
 	
 	private void timer () {
@@ -93,9 +109,9 @@ public class MainWindow : Gtk.Window {
 		}
 	}
 	
-	public MainWindow (int taskh, int runmode, Gtk.Window tabwin /* Can be null */) {
+	public MainWindow (int taskh, int runmode /* Can be null */) {
 		this.title = "APanel";
-		this.tablet_win = tabwin;
+		this.tablet_win = SESDE.taskl;//tabwin;
 		this.set_type_hint (Gdk.WindowTypeHint.DOCK);
 		
 		Gdk.Screen screen = Gdk.Screen.get_default ();
