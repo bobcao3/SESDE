@@ -34,6 +34,7 @@ class ATaskContext {
 		this.wrksp = scr.get_active_workspace ();
 		this.scr.application_closed.connect (this.application_closed);
 		this.scr.application_opened.connect (this.application_opened);
+		this.tskl.set_grouping (Wnck.TasklistGroupingType.ALWAYS_GROUP);
 	}
 	
 }
