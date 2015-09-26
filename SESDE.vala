@@ -6,6 +6,7 @@ namespace SESDE {
 
 static Gtk.Window taskl;
 static Panel.MainWindow win;
+static Preference.PreferenceWin prwin;
 
 public void main (string[] args) {
 	Gtk.init (ref args);
@@ -24,6 +25,8 @@ public void main (string[] args) {
 		taskl = new ATaskl.MainWindow  ();
 		taskl.show_all ();
 	}
+
+	prwin = new Preference.PreferenceWin ();
 	
 	int hx, hy;
 	taskl.get_size (out hx, out hy);

@@ -9,12 +9,9 @@ public class ActionMenu : Gtk.Window {
 	private Button btn_shutdown = new Button ();
 	private Button btn_reboot = new Button ();
 	private Button btn_cancel = new Button ();
+	private ToggleButton btn_preferences = new ToggleButton ();
 	private Label label = new Label ("Actions .. ");
 	private GLib.SubprocessLauncher processL = new GLib.SubprocessLauncher (GLib.SubprocessFlags.NONE);
-	
-	private void cancel () {
-		this.destroy ();
-	}
 	
 	public void appear () {
 		this.show_all ();
@@ -40,18 +37,26 @@ public class ActionMenu : Gtk.Window {
 		}
 	}
 	
+	private void preferences () {
+		if (SESDE.prwin.visible) {
+			SESDE.prwin.vanish ();
+		} else {
+			SESDE.prwin.appear ();
+		}
+	}
+	
 	public ActionMenu () {
 		btn_shutdown.set_label ("Shutdown");
 		btn_shutdown.clicked.connect (shutdown);
 		btn_reboot.set_label ("Reboot");
 		btn_reboot.clicked.connect (reboot);
-		btn_cancel.set_label ("Cancel");
-		btn_cancel.clicked.connect (cancel);
+		btn_preferences.set_label ("Preferences");
+		btn_preferences.toggled.connect (preferences);
 		
 		box.pack_start (label, true, true, 0);
 		box.pack_start (btn_shutdown, true, true, 0);
 		box.pack_start (btn_reboot, true, true, 0);
-		box.pack_start (btn_cancel, true, true, 0);
+		box.pack_start (btn_preferences, true, true, 0);
 	
 		this.add (box);
 		this.window_position = Gtk.WindowPosition.CENTER_ALWAYS;
