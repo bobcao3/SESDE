@@ -8,9 +8,6 @@ public class MainWindow : Gtk.Window {
 
 	private GLib.AppInfoMonitor monitor = GLib.AppInfoMonitor.get ();
 
-	private Gtk.CssProvider csse = new Gtk.CssProvider ();
-	//private Gtk.StyleProvider stylep = new Gtk.StyleProvider ();
-	
 	private Gtk.ListStore store = new Gtk.ListStore (4, typeof (string), typeof (string), typeof (Gdk.Pixbuf), typeof(GLib.AppInfo));
 
 	private Gdk.Pixbuf find_icon (string name, IconTheme theme) {
@@ -75,16 +72,7 @@ public class MainWindow : Gtk.Window {
 		this.show_all ();
 	}
 	
-	private void apply_css (Gtk.Widget widget, Gtk.StyleProvider provider) {
-		
-	}
-	
 	public MainWindow(int uh, int dh) {
-		try {
-			csse.load_from_path ("./style.css");
-		} catch (Error e) {
-			stderr.printf ("Could not load: %s\n", e.message);
-		}
 		this.title = "ALaunch";
 		
 		this.set_decorated (false);

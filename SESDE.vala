@@ -8,8 +8,15 @@ static Gtk.Window taskl;
 static Panel.MainWindow win;
 static Preference.PreferenceWin prwin;
 
+static Gtk.CssProvider cssp;
+
+
 public void main (string[] args) {
 	Gtk.init (ref args);
+	
+	cssp = new Gtk.CssProvider ();
+	cssp.load_from_path ("./style.css");
+	Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), cssp, Gtk.STYLE_PROVIDER_PRIORITY_USER);
 	
 	foreach(string arg in args) {
 		stdout.printf("Argument : %s\n",arg);
@@ -36,6 +43,7 @@ public void main (string[] args) {
 	} else {
 		win = new Panel.MainWindow (hy, runmode);//, taskl);
 	}
+	
 	win.show_all ();
 	
 	Gtk.main ();

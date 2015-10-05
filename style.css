@@ -1,14 +1,21 @@
-/*GtkWindow {
-  background-color: rgba(255,255,255,0.5);
-  transition: all 250ms;
-}*/
-
-GtkIconView {
-  background-color: rgba(255,255,255,0.3);
-  color: #233;
+* {
+	transition: all 250ms ease-in;
 }
 
-GtkScrollbar {
-  background-color: rgba(255,255,255,0.8);
+.button:hover {
+  text-shadow: 3px 3px 5px alpha(black, 0.75);
+  icon-shadow: 3px 3px 5px alpha(black, 0.75);
+  border: solid 1px alpha(black, 0.3);
 }
+
+.button {
+	padding: 10px;
+	border-radius: 0px;
+	border: 1px transparent solid;
+}
+
+GtkWindow {
+	
+}
+
 
