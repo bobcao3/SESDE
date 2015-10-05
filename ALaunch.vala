@@ -5,7 +5,6 @@ namespace ALaunch {
 public class MainWindow : Gtk.Window {
 
 	private Gdk.Pixbuf file_pixbuf;
-	private Gdk.Pixbuf folder_pixbuf;
 
 	private GLib.AppInfoMonitor monitor = GLib.AppInfoMonitor.get ();
 
@@ -82,9 +81,6 @@ public class MainWindow : Gtk.Window {
 	
 	public MainWindow(int uh, int dh) {
 		try {
-			file_pixbuf = new Gdk.Pixbuf.from_file ("/usr/share/ALaunch/gnome-fs-regular.png");
-			folder_pixbuf = new Gdk.Pixbuf.from_file ("/usr/share/ALaunch/gnome-fs-directory.png");
-			
 			csse.load_from_path ("./style.css");
 		} catch (Error e) {
 			stderr.printf ("Could not load: %s\n", e.message);
