@@ -1,21 +1,27 @@
-* {
-	transition: all 250ms ease-in;
+.button:hover {
+	text-shadow: 0px 0px 2.5px alpha(black, 0.55);
+	icon-shadow: 0px 0px 2.5px alpha(black, 0.55);
+	border: solid 2px alpha(black, 0.3);
 }
 
-.button:hover {
-  text-shadow: 3px 3px 5px alpha(black, 0.75);
-  icon-shadow: 3px 3px 5px alpha(black, 0.75);
-  border: solid 1px alpha(black, 0.3);
+.button:active {
+	text-shadow: 0px 0px 1.3px alpha(black, 0.4);
+	icon-shadow: 0px 0px 1.3px alpha(black, 0.4);
+	border: solid 2px alpha(black, 0.1);
+	background: alpha(black, 0.3);
 }
 
 .button {
-	padding: 10px;
 	border-radius: 0px;
-	border: 1px transparent solid;
+	border: 2px transparent solid;
+}
+
+WnckTasklist {
+	margin: 0px;
 }
 
 GtkWindow {
-	
+	transition: all 210ms ease-in;
 }
 
 
