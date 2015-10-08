@@ -73,8 +73,8 @@ public class ActionMenu : Gtk.Window {
 public class MainWindow : Gtk.Window {
 	
 	private Box box = new Box (Orientation.HORIZONTAL, 2);
-	private ToggleButton button_launcher = new ToggleButton ();
-	private ToggleButton button_action = new ToggleButton ();
+	public ToggleButton button_launcher = new ToggleButton.with_mnemonic ("_Launch");
+	public ToggleButton button_action = new ToggleButton.with_mnemonic ("Action");
 	private Label time_dis = new Label ("0:0:0");
 	
 	private Wnck.Pager pgr = new Wnck.Pager ();
@@ -122,16 +122,13 @@ public class MainWindow : Gtk.Window {
 		Gdk.Screen screen = Gdk.Screen.get_default ();
 		this.set_default_size (screen.get_width (), 32);
 		
-		button_launcher.set_label ("Launch");
 		button_launcher.toggled.connect (Launcher);
-		button_action.set_label ("Action");
 		button_action.clicked.connect (Action);
 		
 		pgr.set_display_mode (Wnck.PagerDisplayMode.CONTENT);
 		
 		if (runmode == 1) {
-			ToggleButton button_tablet_task = new ToggleButton ();
-			button_tablet_task.set_label ("Multitask");
+			ToggleButton button_tablet_task = new ToggleButton.with_mnemonic ("_Multitask");
 			button_tablet_task.toggled.connect (tablet_multitask);		
 			box.pack_start (button_tablet_task, false, true, 0);
 		}

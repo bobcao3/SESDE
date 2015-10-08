@@ -61,7 +61,8 @@ public class MainWindow : Gtk.Window {
 		} catch (Error e) {
 			stderr.printf ("Could not load icon: %s\n", e.message);
 		}
-		this.vanish ();
+		//this.vanish ();
+		SESDE.win.button_launcher.active = false;
 	}
 	
 	public void vanish () {
