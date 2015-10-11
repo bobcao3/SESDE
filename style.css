@@ -29,7 +29,7 @@ WnckTasklist {
 }
 
 GtkWindow {
-	transition: all 210ms ease-in;
+	transition: all 450ms ease-out;
 }
 
 
