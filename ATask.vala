@@ -154,8 +154,7 @@ public class TabletWindow : Gtk.Window {
 	public TabletWindow () {
 		
 		Gdk.Screen scrn = Gdk.Screen.get_default ();
-		this.set_default_size (300, 500);
-
+		
 		this.window_position = Gtk.WindowPosition.CENTER;
 		
 		this.set_decorated (false);
@@ -163,7 +162,7 @@ public class TabletWindow : Gtk.Window {
 		this.set_skip_taskbar_hint (true);
 		this.set_keep_above (true);
 		this.stick ();
-		
+
 		ctx.tskl.set_orientation (Gtk.Orientation.VERTICAL);
 		
 		box.pack_start (ctx.tskl);
