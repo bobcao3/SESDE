@@ -3,7 +3,7 @@ using Wnck;
 
 namespace ATaskl {
 
-class SApplication {
+public class SApplication {
 
 	public Gtk.Image image = new Gtk.Image ();
 	public Wnck.Window app;
@@ -68,7 +68,7 @@ class SApplication {
 	
 }
 
-class ATaskContext {
+public class ATaskContext {
 
 	public Wnck.Screen scr = Wnck.Screen.get_default ();
 	public Wnck.Workspace wrksp;
@@ -118,7 +118,7 @@ class ATaskContext {
 	
 }
 
-class MainWindow : Gtk.Window {
+public class MainWindow : Gtk.Window {
 	
 	private ATaskContext ctx = new ATaskContext ();
 	
@@ -137,9 +137,11 @@ class MainWindow : Gtk.Window {
 	
 }
 
-class TabletWindow : Gtk.Window {
+public class TabletWindow : Gtk.Window {
 	
 	private ATaskContext ctx = new ATaskContext ();
+	
+	public Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL,2);
 	
 	public void appear () {
 		this.show_all ();
@@ -150,11 +152,12 @@ class TabletWindow : Gtk.Window {
 	}
 	
 	public TabletWindow () {
+		
 		Gdk.Screen scrn = Gdk.Screen.get_default ();
 		this.set_default_size (300, 500);
 
 		this.window_position = Gtk.WindowPosition.CENTER;
-
+		
 		this.set_decorated (false);
 		this.set_skip_pager_hint (true);
 		this.set_skip_taskbar_hint (true);
@@ -163,7 +166,8 @@ class TabletWindow : Gtk.Window {
 		
 		ctx.tskl.set_orientation (Gtk.Orientation.VERTICAL);
 		
-		this.add (ctx.tskl);
+		box.pack_start (ctx.tskl);
+		this.add (box);
 	}
 	
 }

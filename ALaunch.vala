@@ -73,7 +73,7 @@ public class MainWindow : Gtk.Window {
 		this.show_all ();
 	}
 	
-	public MainWindow(int uh, int dh) {
+	public MainWindow(int uh) {
 		this.title = "ALaunch";
 		
 		this.set_decorated (false);
@@ -83,7 +83,7 @@ public class MainWindow : Gtk.Window {
 		this.stick ();
 		
 		Gdk.Screen screen = Gdk.Screen.get_default ();
-		this.set_default_size (screen.get_width (), screen.get_height () - uh - dh);
+		this.set_default_size (screen.get_width (), screen.get_height () - uh);
 		this.move (0, uh);
 
 		store.set_sort_column_id (1, SortType.ASCENDING);

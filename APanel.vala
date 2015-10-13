@@ -79,7 +79,8 @@ public class MainWindow : Gtk.Window {
 	
 	private Wnck.Pager pgr = new Wnck.Pager ();
 	
-	private Gtk.Window tablet_win;
+	private ATaskl.TabletWindow tablet_win;
+	private ATaskl.ATaskContext actx;
 	private ActionMenu action = new ActionMenu ();
 	
 	private ALaunch.MainWindow l_win;
@@ -114,9 +115,8 @@ public class MainWindow : Gtk.Window {
 		}
 	}
 	
-	public MainWindow (int taskh, int runmode /* Can be null */) {
+	public MainWindow (int runmode /* Can be null */) {
 		this.title = "APanel";
-		this.tablet_win = SESDE.taskl;//tabwin;
 		this.set_type_hint (Gdk.WindowTypeHint.DOCK);
 		
 		Gdk.Screen screen = Gdk.Screen.get_default ();
@@ -128,6 +128,7 @@ public class MainWindow : Gtk.Window {
 		pgr.set_display_mode (Wnck.PagerDisplayMode.CONTENT);
 		
 		if (runmode == 1) {
+			this.tablet_win = new ATaskl.TabletWindow ();
 			ToggleButton button_tablet_task = new ToggleButton.with_mnemonic ("_Multitask");
 			button_tablet_task.toggled.connect (tablet_multitask);		
 			box.pack_start (button_tablet_task, false, true, 0);
@@ -135,8 +136,20 @@ public class MainWindow : Gtk.Window {
 		
 		box.pack_start (button_launcher, false, true, 0);
 		box.pack_start (button_action, false, true, 0);
-		box.pack_start (pgr, false, false, 0);
+		
+		if (runmode == 0) {
+			box.pack_start (pgr, false, false, 0);
+		} else if (runmode == 1) {
+			Gtk.Paned pane = new Gtk.Paned (Gtk.Orientation.VERTICAL);
+			pane.add (pgr);
+			this.tablet_win.box.pack_end (pane, true, true, 0);
+		}
 		box.pack_end (time_dis, false, true, 0);
+		
+		if (runmode == 0) {
+			actx = new ATaskl.ATaskContext ();
+			box.pack_end (actx.tskl, true, true, 0);
+		}
 		
 		this.set_decorated (false);
 		this.set_skip_pager_hint (true);
@@ -145,7 +158,7 @@ public class MainWindow : Gtk.Window {
 		int tx, ty;
 		this.get_size(out tx, out ty);
 		
-		l_win = new ALaunch.MainWindow (ty, taskh);
+		l_win = new ALaunch.MainWindow (ty);
 		
 		GLib.Timeout.add (1000, (GLib.SourceFunc) timer);
 		timer ();
