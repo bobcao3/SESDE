@@ -6,11 +6,12 @@ namespace ATaskl {
 class SApplication {
 
 	public Gtk.Image image = new Gtk.Image ();
-	public Wnck.Application app;
-	public unowned List<Wnck.Window> wins;
+	public Wnck.Window app;
+	public GLib.List<Gtk.Button> winbtnlist = new GLib.List<Gtk.Button> ();
+	public Gtk.Dialog dialog = new Gtk.Dialog ();
 	public Gdk.Pixbuf icon_px;
 	public string name;
-	public Gtk.ModelButton btn = new Gtk.ModelButton ();
+	public Gtk.Button btn = new Gtk.Button ();
 	
 	public void load_pixbuf (Gdk.Pixbuf pix) {
 		this.icon_px = pix;
@@ -28,17 +29,41 @@ class SApplication {
 		this.name = app.get_name ();
 	}
 
-	public void btn_clicked () {
-		
+	public void flash_state () {
+		if (app.is_skip_tasklist ()) {
+			this.btn.hide ();
+		} else {
+			this.btn.show_all ();
+		}
+		if (app.is_active ()) {
+	//		this.btn.active = true;
+		} else {
+	//		this.btn.active = false;
+		}
+		workspace_changed ();
+	}
+
+	private void state_change (WindowState changed_mask, WindowState new_state) {
+		flash_state ();
+	}
+
+	private void actions_changed (WindowActions changed_mask, WindowActions new_actions) {
+		flash_state ();
 	}
 	
-	public void init () {
-		wins = app.get_windows ();
+	private void workspace_changed () {
 	}
-		
+
+	public void btn_clicked () {
+		this.app.activate (0);
+	}
+	
 	public SApplication () {
 		app.icon_changed.connect (icon_change);
 		app.name_changed.connect (name_change);
+		app.state_changed.connect (state_change);
+		app.actions_changed.connect (actions_changed);
+		btn.clicked.connect (btn_clicked);
 	}
 	
 }
@@ -54,7 +79,7 @@ class ATaskContext {
 	
 	static SApplication nullSAPP = new SApplication ();
 	
-	public void remove_by_wapp (Wnck.Application wapp) {
+	public void remove_by_wapp (Wnck.Window wapp) {
 		SApplication foobar = nullSAPP;
 		applist.foreach ( (aapp) => {
 			if (((SApplication) aapp).app == wapp) {
@@ -65,30 +90,30 @@ class ATaskContext {
 		applist.remove (foobar);
 	}
 	
-	private void application_closed (Wnck.Application app) {
-		stdout.printf ("[ApplicationList] \"%s\" closed\n", app.get_name ());
+	private void window_closed (Wnck.Window app) {
+		stdout.printf ("[WindowList] \"%s\" closed\n", app.get_name ());
 		this.remove_by_wapp (app);
 	}
 	
-	private void application_opened (Wnck.Application app) {
+	private void window_opened (Wnck.Window app) {
 		string name = app.get_name ();
-		stdout.printf ("[ApplicationList] \"%s\" opened\n", name);
+		stdout.printf ("[WindowList] \"%s\" opened\n", name);
 		
 		ATaskl.SApplication aapp = new ATaskl.SApplication ();
 		aapp.load_pixbuf (app.get_icon());
 		aapp.app = app;
 		aapp.name = name;
-		aapp.init ():
+		aapp.flash_state ();
 		applist.prepend (aapp);
 		
 		tskl.pack_start(aapp.btn, false, true);
-		tskl.show_all();
+		tskl.show();
 	}
 
 	public ATaskContext () {
 		this.wrksp = scr.get_active_workspace ();
-		this.scr.application_closed.connect (this.application_closed);
-		this.scr.application_opened.connect (this.application_opened);
+		this.scr.window_closed.connect (this.window_closed);
+		this.scr.window_opened.connect (this.window_opened);
 	}
 	
 }
