@@ -8,7 +8,6 @@ public class ActionMenu : Gtk.Window {
 	private Box box = new Box (Orientation.VERTICAL, 3);
 	private Button btn_shutdown = new Button ();
 	private Button btn_reboot = new Button ();
-	private Button btn_cancel = new Button ();
 	private ToggleButton btn_preferences = new ToggleButton ();
 	private Label label = new Label ("Actions .. ");
 	private GLib.SubprocessLauncher processL = new GLib.SubprocessLauncher (GLib.SubprocessFlags.NONE);
@@ -155,10 +154,7 @@ public class MainWindow : Gtk.Window {
 		this.set_skip_pager_hint (true);
 		this.set_skip_taskbar_hint (true);
 		
-		int tx, ty;
-		this.get_size(out tx, out ty);
-		
-		l_win = new ALaunch.MainWindow (ty);
+		l_win = new ALaunch.MainWindow ();
 		
 		GLib.Timeout.add (1000, (GLib.SourceFunc) timer);
 		timer ();

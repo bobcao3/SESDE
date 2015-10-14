@@ -38,6 +38,7 @@ namespace Preference {
 			this.deletable = false;
 			this.title = "SESDE Preferences";
 			this.add (dark_toggle);
+			
 		}
 	
 	}

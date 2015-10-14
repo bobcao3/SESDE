@@ -153,8 +153,6 @@ public class TabletWindow : Gtk.Window {
 	
 	public TabletWindow () {
 		
-		Gdk.Screen scrn = Gdk.Screen.get_default ();
-		
 		this.window_position = Gtk.WindowPosition.CENTER;
 		
 		this.set_decorated (false);
