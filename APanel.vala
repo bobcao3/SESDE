@@ -1,5 +1,6 @@
 using Wnck;
 using Gtk;
+using Na;
 
 namespace Panel {
 
@@ -144,6 +145,13 @@ public class MainWindow : Gtk.Window {
 			this.tablet_win.box.pack_end (pane, true, true, 0);
 		}
 		box.pack_end (time_dis, false, true, 0);
+		
+		Na.Tray tray = new Na.Tray.for_screen(get_screen(), Gtk.Orientation.HORIZONTAL);
+        tray.set_icon_size(32);
+        tray.set_padding(5);
+        box.pack_end (tray, false, true, 0);
+        tray.show_all();
+		
 		
 		if (runmode == 0) {
 			actx = new ATaskl.ATaskContext ();

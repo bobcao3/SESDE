@@ -1,3 +1,4 @@
+using DConf;
 using Gtk;
 
 namespace Preference {
@@ -5,16 +6,22 @@ namespace Preference {
 	class PreferenceMan {
 		
 		public bool dark_theme = false;
+		private DConf.Client dcl = new DConf.Client ();		
 		
 		private Gtk.Settings gtkst = Gtk.Settings.get_default ();
 		
 		public void dark_theme_toggle () {
 			this.dark_theme = !this.dark_theme;
 			gtkst.gtk_application_prefer_dark_theme = this.dark_theme;
+			dcl.write_fast ("./dconf.conf", this.dark_theme);
 		}
 		
 		public PreferenceMan () {
-			
+			dcl.watch_sync ("./dconf.conf");
+			Variant? dark_var = dcl.read("SESDE.Dark");
+			if (dark_var.get_boolean ()) {
+				dark_theme_toggle ();
+			}
 		}
 		
 	}
