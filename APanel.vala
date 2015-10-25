@@ -72,10 +72,9 @@ public class ActionMenu : Gtk.Window {
 
 public class MainWindow : Gtk.Window {
 	
-	private Box box = new Box (Orientation.HORIZONTAL, 2);
+	private Box box = new Box (Orientation.HORIZONTAL, 0);
 	public ToggleButton button_launcher = new ToggleButton.with_mnemonic ("_Launch");
 	public ToggleButton button_action = new ToggleButton.with_mnemonic ("Action");
-	public ToggleButton button_tray = new ToggleButton.with_mnemonic (" * ");
 	
 	private Label time_dis = new Label ("0:0:0");
 	
@@ -85,7 +84,7 @@ public class MainWindow : Gtk.Window {
 	
 	private ALaunch.MainWindow l_win;
 
-	private ATray.SysTray syt = new ATray.SysTray();
+	private ATray.Tray syt = new ATray.Tray();
 
 	private void Launcher () {
 		if (l_win.visible) {
@@ -103,17 +102,9 @@ public class MainWindow : Gtk.Window {
 		}
 	}
 	
-	private void Tray () {
-		if (syt.visible) {
-			syt.vanish ();
-		} else {
-			syt.appear ();
-		}
-	}
-	
 	private void timer () {
 		GLib.DateTime now = new GLib.DateTime.now_local ();
-		string t = now.format("%H:%M:%S");
+		string t = now.format(" %H:%M ");
 		time_dis.label = t;
 	}
 	
@@ -144,16 +135,14 @@ public class MainWindow : Gtk.Window {
 		
 		box.pack_start (button_launcher, false, true, 0);
 		box.pack_start (button_action, false, true, 0);
-		
-		box.pack_end (time_dis, false, true, 0);
-		
-		//box.pack_end (button_tray, false, true, 0);
-		//button_action.clicked.connect (Tray);
-		
+
 		if (runmode == 0) {
 			actx = new ATaskl.ATaskContext ();
-			box.pack_start (actx.tskl, false, false, 0);
+			box.pack_start (actx.tskl, false, true, 0);
 		}
+
+		box.pack_end (time_dis, false, true, 0);
+		box.pack_end (syt, false, false, 0);
 		
 		this.set_decorated (false);
 		this.set_skip_pager_hint (true);

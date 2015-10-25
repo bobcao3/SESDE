@@ -3,10 +3,11 @@ using Na;
 
 namespace ATray {
 
-public class NTray : Gtk.Box {
+public class Tray : Gtk.Box {
 	
-	protected int icon_size = 24;
+	protected int icon_size = 32;
 	protected Na.Tray? tray = null;
+	Gtk.EventBox box;
     
 	public override void get_preferred_height(out int m, out int n)
     {
@@ -20,28 +21,23 @@ public class NTray : Gtk.Box {
         n = icon_size;
     }
     
-    public NTray () {
+    public Tray () {
+    	box = new Gtk.EventBox();
+        add(box);
+        
+        box.valign = Gtk.Align.CENTER;
+        box.vexpand = false;
+        
+        if (tray != null) {
+            return;
+        }
     	tray = new Na.Tray.for_screen(get_screen(), Gtk.Orientation.HORIZONTAL);
         tray.set_icon_size(icon_size);
-        tray.set_padding(5);
-        add(tray);
-	}
-}
-
-public class SysTray : Gtk.Window {
-	private NTray nt = new NTray ();
-	
-	public void appear () {
-		this.show_all ();
-	}
-	
-	public void vanish () {
-		this.hide ();
-	}
-	
-	public SysTray () {
-		this.add(nt);
-		//this.show_all();
+        tray.set_padding(0);
+        box.add(tray);
+		
+		this.margin = 0;
+		this.show_all();
 	}
 }
 
