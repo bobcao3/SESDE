@@ -558,6 +558,8 @@ na_tray_init (NaTray *tray)
                     G_CALLBACK (na_tray_draw_box), NULL);
   gtk_container_add (GTK_CONTAINER (priv->frame), priv->box);
   gtk_widget_show (priv->box);
+
+	na_tray_set_icon_size(tray,16);
 }
 
 static GObject *

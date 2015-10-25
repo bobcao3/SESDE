@@ -13,14 +13,16 @@ public class SApplication {
 	public string name;
 	public Gtk.Button btn = new Gtk.Button ();
 	
+	protected int icon_size = 32;
+	
 	public void load_pixbuf (Gdk.Pixbuf pix) {
-		this.icon_px = pix;
-		this.image.set_from_pixbuf (pix);
+		this.icon_px = pix.scale_simple(icon_size, icon_size, Gdk.InterpType.BILINEAR);
+		this.image.set_from_pixbuf (icon_px);
 		this.btn.set_image (image);
 	}
 	
 	private void icon_change () {
-		this.icon_px = app.get_icon  ();
+		this.icon_px = app.get_icon ().scale_simple(icon_size, icon_size, Gdk.InterpType.BILINEAR);
 		this.image.set_from_pixbuf (icon_px);
 		this.btn.set_image (image);
 	}
@@ -114,25 +116,6 @@ public class ATaskContext {
 		this.wrksp = scr.get_active_workspace ();
 		this.scr.window_closed.connect (this.window_closed);
 		this.scr.window_opened.connect (this.window_opened);
-	}
-	
-}
-
-public class MainWindow : Gtk.Window {
-	
-	private ATaskContext ctx = new ATaskContext ();
-	
-	public MainWindow () {
-		Gdk.Screen scrn = Gdk.Screen.get_default ();
-		this.set_default_size (scrn.get_width (), 32);
-		this.move (0, scrn.get_height ());
-		this.set_decorated (false);
-		this.set_skip_pager_hint (true);
-		this.set_skip_taskbar_hint (true);
-		this.set_keep_above (true);
-		this.stick ();
-		
-		this.add (ctx.tskl);
 	}
 	
 }

@@ -75,15 +75,17 @@ public class MainWindow : Gtk.Window {
 	private Box box = new Box (Orientation.HORIZONTAL, 2);
 	public ToggleButton button_launcher = new ToggleButton.with_mnemonic ("_Launch");
 	public ToggleButton button_action = new ToggleButton.with_mnemonic ("Action");
-	private Label time_dis = new Label ("0:0:0");
+	public ToggleButton button_tray = new ToggleButton.with_mnemonic (" * ");
 	
-	private Wnck.Pager pgr = new Wnck.Pager ();
+	private Label time_dis = new Label ("0:0:0");
 	
 	private ATaskl.TabletWindow tablet_win;
 	private ATaskl.ATaskContext actx;
 	private ActionMenu action = new ActionMenu ();
 	
 	private ALaunch.MainWindow l_win;
+
+	private ATray.SysTray syt = new ATray.SysTray();
 
 	private void Launcher () {
 		if (l_win.visible) {
@@ -98,6 +100,14 @@ public class MainWindow : Gtk.Window {
 			action.vanish ();
 		} else {
 			action.appear ();
+		}
+	}
+	
+	private void Tray () {
+		if (syt.visible) {
+			syt.vanish ();
+		} else {
+			syt.appear ();
 		}
 	}
 	
@@ -125,8 +135,6 @@ public class MainWindow : Gtk.Window {
 		button_launcher.toggled.connect (Launcher);
 		button_action.clicked.connect (Action);
 		
-		pgr.set_display_mode (Wnck.PagerDisplayMode.CONTENT);
-		
 		if (runmode == 1) {
 			this.tablet_win = new ATaskl.TabletWindow ();
 			ToggleButton button_tablet_task = new ToggleButton.with_mnemonic ("_Multitask");
@@ -137,25 +145,14 @@ public class MainWindow : Gtk.Window {
 		box.pack_start (button_launcher, false, true, 0);
 		box.pack_start (button_action, false, true, 0);
 		
-		if (runmode == 0) {
-			box.pack_start (pgr, false, false, 0);
-		} else if (runmode == 1) {
-			Gtk.Paned pane = new Gtk.Paned (Gtk.Orientation.VERTICAL);
-			pane.add (pgr);
-			this.tablet_win.box.pack_end (pane, true, true, 0);
-		}
 		box.pack_end (time_dis, false, true, 0);
 		
-		Na.Tray tray = new Na.Tray.for_screen(get_screen(), Gtk.Orientation.HORIZONTAL);
-        tray.set_icon_size(32);
-        tray.set_padding(5);
-        box.pack_end (tray, false, true, 0);
-        tray.show_all();
-		
+		//box.pack_end (button_tray, false, true, 0);
+		//button_action.clicked.connect (Tray);
 		
 		if (runmode == 0) {
 			actx = new ATaskl.ATaskContext ();
-			box.pack_end (actx.tskl, true, true, 0);
+			box.pack_start (actx.tskl, false, false, 0);
 		}
 		
 		this.set_decorated (false);

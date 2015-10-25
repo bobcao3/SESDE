@@ -1,0 +1,3 @@
+[submodule "libgnome-volume-control"]
+	path = libgnome-volume-control
+	url = https://git.gnome.org/browse/libgnome-volume-control/
