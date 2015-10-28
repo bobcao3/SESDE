@@ -76,7 +76,7 @@ public class MainWindow : Gtk.Window {
 	public ToggleButton button_launcher = new ToggleButton.with_mnemonic ("_Launch");
 	public ToggleButton button_action = new ToggleButton.with_mnemonic ("Action");
 	
-	private Label time_dis = new Label ("0:0:0");
+	private Label time_dis = new Label ("0:0");
 	
 	private ATaskl.TabletWindow tablet_win;
 	private ATaskl.ATaskContext actx;

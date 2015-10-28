@@ -39,6 +39,7 @@ public class Tray : Gtk.Box {
 		this.margin = 0;
 		this.show_all();
 	}
+
 }
 
 }

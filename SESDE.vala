@@ -1,3 +1,4 @@
+using Wnck;
 using Gtk;
 
 public static int runmode = 0; // 0 -> Desktop, 1 -> Tablet
@@ -6,6 +7,8 @@ namespace SESDE {
 
 static Panel.MainWindow win;
 static Preference.PreferenceWin prwin;
+
+static Wnck.Screen wscr;
 
 static Gtk.CssProvider cssp;
 
@@ -29,6 +32,7 @@ public void main (string[] args) {
 		}
 	}
 
+	wscr = Wnck.Screen.get_default ();
 	prwin = new Preference.PreferenceWin ();
 	
 	if (runmode == 1) {

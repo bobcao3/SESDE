@@ -53,7 +53,12 @@ public class SApplication {
 		flash_state ();
 	}
 	
-	private void workspace_changed () {
+	public void workspace_changed () {
+		if ( app.is_visible_on_workspace (SESDE.wscr.get_active_workspace ()) && !app.is_skip_tasklist () ) {
+			this.btn.show_all ();
+		} else {
+			this.btn.hide ();
+		}
 	}
 
 	public void btn_clicked () {
@@ -63,8 +68,8 @@ public class SApplication {
 	public SApplication () {
 		app.icon_changed.connect (icon_change);
 		app.name_changed.connect (name_change);
-		app.state_changed.connect (state_change);
-		app.actions_changed.connect (actions_changed);
+		//app.state_changed.connect (state_change);
+		//app.actions_changed.connect (actions_changed);
 		btn.clicked.connect (btn_clicked);
 	}
 	
@@ -112,10 +117,17 @@ public class ATaskContext {
 		tskl.show();
 	}
 
+	public void workspace_changed () {
+		this.applist.foreach ( foo => {
+			foo.workspace_changed ();
+		});
+	}
+
 	public ATaskContext () {
 		this.wrksp = scr.get_active_workspace ();
 		this.scr.window_closed.connect (this.window_closed);
 		this.scr.window_opened.connect (this.window_opened);
+		SESDE.wscr.active_workspace_changed.connect (this.workspace_changed);
 	}
 	
 }
